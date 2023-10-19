@@ -6,16 +6,20 @@ import CreateAccount from "./components/CreateAccount";
 import Login from "./components/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
+import ColorChange from "./components/ColorChange";
 
 function App() {
   return (
-
+    
     <BrowserRouter>
     <Container>
       <Row>
         <Col>
-          <h1 className="text-center">Our Blog</h1>
+          <h1 className="test text-center">Our Blog</h1>
         </Col>
+        <Col xs="auto" className="d-flex justify-content-end">
+            <ColorChange />
+          </Col>
         <NavBar/>
         {/* <Login/> */}
         {/* <CreateAccount/> */}

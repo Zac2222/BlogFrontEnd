@@ -8,28 +8,29 @@ import {
   Col,
   ListGroup,
 } from "react-bootstrap/";
-import { useState,useEffect } from "react";
-import {useNavigate} from 'react-router-dom'
-import { LoggedInData, checkToken } from "../Services/DataService";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  AddBlogItems,
+  LoggedInData,
+  checkToken,
+  getBlogItems,
+  getBlogItemsByUserId,
+} from "../Services/DataService";
 
 const Dashboard = () => {
-
-let navigate = useNavigate();
+  let navigate = useNavigate();
   useEffect(() => {
-  //useEffect is the first thing that fires on load
-  //put any logic we want to fire onload
-  //our effect will fire if we have a change in the state in our depenency
-    if(!checkToken()) 
-    {
+    //useEffect is the first thing that fires on load
+    //put any logic we want to fire onload
+    //our effect will fire if we have a change in the state in our depenency
+    if (!checkToken()) {
       navigate("/Login");
     }
 
-    let userInfo = LoggedInData()
+    let userInfo = LoggedInData();
     console.log(userInfo);
-
-
-  }, [])
-
+  }, []);
 
   //functions
   const handleSetTitle = (e) => setBlogTitle(e.target.value);
@@ -59,65 +60,16 @@ let navigate = useNavigate();
   const [blogDescription, setBlogDescription] = useState("");
   const [blogCategory, setBlogCategory] = useState("");
   const [blogTags, setBlogTags] = useState("");
-  const [blogItems, setBlogItems] = useState([
-    {
-      Id: 1,
-      Title: "Top Finishing and Crossing Drills",
-      Publisher: "anonymous",
-      Date: "01-13-2022",
-      Text: "Developing finishing and crossing skills is an important aspect of soccer that can greatly constribute to your player.",
-      Image: "./assets/Images/3soccerballs.jpg",
-      Published: true,
-    },
-    {
-      Id: 2,
-      Title: "6 Soccer Drills to Work on Defense",
-      Publisher: "anonymous",
-      Date: "01-14-2022",
-      Text: "A strong defense is the backbone of any successful soccer team",
-      Image: "./assets/Images/3soccerballs.jpg",
-      Published: true,
-    },
-    {
-      Id: 3,
-      Title: "5 Small Side Games",
-      Publisher: "anonymous",
-      Date: "01-15-2022",
-      Text: "Small-sided games create a fast-paced and intense environment.",
-      Image: "./assets/Images/3soccerballs.jpg",
-      Published: true,
-    },
-    {
-      Id: 4,
-      Title: "5 Fun 1 V 1 Youth Soccer Activites",
-      Publisher: "anonymous",
-      Date: "01-15-2022",
-      Text: "One of the best ways to naturally bring out the competitive nature.",
-      Image: "./assets/Images/3soccerballs.jpg",
-      Published: false,
-    },
-    {
-      Id: 5,
-      Title: "5 Fun warm up soccer drills",
-      Publisher: "anonymous",
-      Date: "01-15-2022",
-      Text: "One of the challenges for youth soccer coaches is to make sure their players are always excited to come to practice.",
-      Image: "./assets/Images/3soccerballs.jpg",
-      Published: false,
-    },
-  ]);
-  const [userId, setUserId] = useState(0);
-  const [Publishername, setPublishername] = useState("");
+  const [blogItems, setBlogItems] = useState([]);
+  // const [userId, setUserId] = useState(0);
+  // const [Publishername, setPublishername] = useState("");
 
   //bools
   const [show, setShow] = useState(false);
   const [edit, setEdit] = useState(false);
 
-
-  const handleSaveWithPublish = () =>
-  {
-    console.log("help");
-    let {publishername, userId}=LoggedInData();
+  const handleSaveWithPublish = async () => {
+    let { publishername, userId } = LoggedInData();
     const Published = {
       Id: 0,
       UserId: userId,
@@ -129,16 +81,20 @@ let navigate = useNavigate();
       Category: blogCategory,
       Tag: blogTags,
       IsDelted: false,
-      IsPublished: true
-    }
+      IsPublished: true,
+    };
     console.log(Published);
     handleClose();
+    let result = await AddBlogItems(Published);
 
-  }
-  const handleSaveWithUnpublish = () =>
-  {
-   
-    let {publishername, userId}=LoggedInData();
+    if (result) {
+     let userBlogItems = await getBlogItemsByUserId(userId);
+     setBlogItems(userBlogItems);
+     console.log(userBlogItems, "yes it works");
+    }
+  };
+  const handleSaveWithUnpublish = () => {
+    let { publishername, userId } = LoggedInData();
     const notPublished = {
       Id: 0,
       UserId: userId,
@@ -150,27 +106,23 @@ let navigate = useNavigate();
       Category: blogCategory,
       Tag: blogTags,
       IsDelted: false,
-      IsPublished: false
-    }
+      IsPublished: false,
+    };
     console.log(notPublished);
     handleClose();
-
-  }
+    AddBlogItems(notPublished);
+  };
 
   //handle our image
-  const handleImage = async (e) => 
-  {
+  const handleImage = async (e) => {
     let file = e.target.files[0];
     const reader = new FileReader();
-    reader.onloadend = () => 
-    {
+    reader.onloadend = () => {
       console.log(reader.result);
-    }
+    };
     reader.readAsDataURL(file);
     // setBlogImage(target.files[0]);
-  }
-
-
+  };
 
   return (
     <>
@@ -265,14 +217,16 @@ let navigate = useNavigate();
                 <Accordion.Body
                   style={{ backgroundColor: "#3f3f3f", color: "azure" }}
                 >
-                  {blogItems.map((item) =>
+                  {blogItems.map((item, i) =>
                     item.Published ? (
-                      <ListGroup key={item.Title}>
+                      <ListGroup key={i}>
                         {item.Title}
                         <Col className="d-flex justify-content-end">
                           <Button variant="outline-danger mx-2">Delete</Button>
-                          <Button variant="outline-info mx-2" >Edit</Button>
-                          <Button variant="outline-primary mx-2">Publish</Button>
+                          <Button variant="outline-info mx-2">Edit</Button>
+                          <Button variant="outline-primary mx-2">
+                            Publish
+                          </Button>
                         </Col>
                       </ListGroup>
                     ) : null
@@ -284,15 +238,17 @@ let navigate = useNavigate();
                 <Accordion.Body
                   style={{ backgroundColor: "#3f3f3f", color: "azure" }}
                 >
-                  {blogItems.map((item) =>
+                  {blogItems.map((item, i) =>
                     !item.Published ? (
-                      <ListGroup key={item.Title}>{item.Title}
-                      <Col className="d-flex justify-content-end">
+                      <ListGroup key={i}>
+                        {item.Title}
+                        <Col className="d-flex justify-content-end">
                           <Button variant="outline-danger mx-2">Delete</Button>
-                          <Button variant="outline-info mx-2" >Edit</Button>
-                          <Button variant="outline-primary mx-2">Upublish</Button>
+                          <Button variant="outline-info mx-2">Edit</Button>
+                          <Button variant="outline-primary mx-2">
+                            Upublish
+                          </Button>
                         </Col>
-                      
                       </ListGroup>
                     ) : null
                   )}
