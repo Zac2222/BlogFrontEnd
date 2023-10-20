@@ -26,10 +26,18 @@ const Dashboard = () => {
     //our effect will fire if we have a change in the state in our depenency
     if (!checkToken()) {
       navigate("/Login");
+    } else {
+      setTimeout(async () => {
+        let LoggedInData = LoggedInData();
+        console.log(LoggedInData);
+        let userBlogItems = await getBlogItemsByUserId(LoggedInData.userId);
+        console.log(userBlogItems);
+        isLoading(false);
+      }, 1000);
     }
 
-    let userInfo = LoggedInData();
-    console.log(userInfo);
+    // let userInfo = LoggedInData();
+    // console.log(userInfo);
   }, []);
 
   //functions
@@ -67,6 +75,7 @@ const Dashboard = () => {
   //bools
   const [show, setShow] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleSaveWithPublish = async () => {
     let { publishername, userId } = LoggedInData();
@@ -88,12 +97,12 @@ const Dashboard = () => {
     let result = await AddBlogItems(Published);
 
     if (result) {
-     let userBlogItems = await getBlogItemsByUserId(userId);
-     setBlogItems(userBlogItems);
-     console.log(userBlogItems, "yes it works");
+      let userBlogItems = await getBlogItemsByUserId(userId);
+      setBlogItems(userBlogItems);
+      console.log(userBlogItems, "yes it works");
     }
   };
-  const handleSaveWithUnpublish = () => {
+  const handleSaveWithUnpublish = async () => {
     let { publishername, userId } = LoggedInData();
     const notPublished = {
       Id: 0,
@@ -110,6 +119,11 @@ const Dashboard = () => {
     };
     console.log(notPublished);
     handleClose();
+    let result = await AddBlogItems(notPublished);
+    if (result) {
+      let userBlogItems = await getBlogItemsByUserId(userId);
+      setBlogItems(userBlogItems);
+    }
     AddBlogItems(notPublished);
   };
 
@@ -211,50 +225,61 @@ const Dashboard = () => {
 
         <Row>
           <Col>
-            <Accordion defaultActiveKey={["0", "1"]} alwaysOpen>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>Publish</Accordion.Header>
-                <Accordion.Body
-                  style={{ backgroundColor: "#3f3f3f", color: "azure" }}
-                >
-                  {blogItems.map((item, i) =>
-                    item.Published ? (
-                      <ListGroup key={i}>
-                        {item.Title}
-                        <Col className="d-flex justify-content-end">
-                          <Button variant="outline-danger mx-2">Delete</Button>
-                          <Button variant="outline-info mx-2">Edit</Button>
-                          <Button variant="outline-primary mx-2">
-                            Publish
-                          </Button>
-                        </Col>
-                      </ListGroup>
-                    ) : null
-                  )}
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey="1">
-                <Accordion.Header>Unpublished</Accordion.Header>
-                <Accordion.Body
-                  style={{ backgroundColor: "#3f3f3f", color: "azure" }}
-                >
-                  {blogItems.map((item, i) =>
-                    !item.Published ? (
-                      <ListGroup key={i}>
-                        {item.Title}
-                        <Col className="d-flex justify-content-end">
-                          <Button variant="outline-danger mx-2">Delete</Button>
-                          <Button variant="outline-info mx-2">Edit</Button>
-                          <Button variant="outline-primary mx-2">
-                            Upublish
-                          </Button>
-                        </Col>
-                      </ListGroup>
-                    ) : null
-                  )}
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
+          {isLoading ? <h1>Loading...</h1> : 
+            blogItems.length == 0 ? (
+              <h1 className="text-center">
+                No blog items. Add a blog item above
+              </h1>
+            ) : (
+              <Accordion defaultActiveKey={["0", "1"]} alwaysOpen>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>Publish</Accordion.Header>
+                  <Accordion.Body
+                    style={{ backgroundColor: "#3f3f3f", color: "azure" }}
+                  >
+                    {blogItems.map((item, i) =>
+                      item.Published ? (
+                        <ListGroup key={i}>
+                          {item.Title}
+                          <Col className="d-flex justify-content-end">
+                            <Button variant="outline-danger mx-2">
+                              Delete
+                            </Button>
+                            <Button variant="outline-info mx-2">Edit</Button>
+                            <Button variant="outline-primary mx-2">
+                              Publish
+                            </Button>
+                          </Col>
+                        </ListGroup>
+                      ) : null
+                    )}
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="1">
+                  <Accordion.Header>Unpublished</Accordion.Header>
+                  <Accordion.Body
+                    style={{ backgroundColor: "#3f3f3f", color: "azure" }}
+                  >
+                    {blogItems.map((item, i) =>
+                      !item.Published ? (
+                        <ListGroup key={i}>
+                          {item.Title}
+                          <Col className="d-flex justify-content-end">
+                            <Button variant="outline-danger mx-2">
+                              Delete
+                            </Button>
+                            <Button variant="outline-info mx-2">Edit</Button>
+                            <Button variant="outline-primary mx-2">
+                              Upublish
+                            </Button>
+                          </Col>
+                        </ListGroup>
+                      ) : null
+                    )}
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            )}
           </Col>
         </Row>
       </Container>

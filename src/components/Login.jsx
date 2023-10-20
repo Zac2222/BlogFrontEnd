@@ -31,7 +31,7 @@ const Login = () => {
   return (
     <div>
       
-      <Form style={{width:'60%',marginLeft:"25%",marginTop: "5%",backgroundColor: "lightseagreen",padding: 80, borderRadius: 5,}}>
+      <Form style={{width:'60%',marginLeft:"20%", backgroundColor: "blueviolet",padding: 80, borderRadius: 5,}}>
         <h1 className='text-center'>Login</h1>
       <Form.Group className="mb-3" controlId="Username">
         <Form.Label>Username</Form.Label>

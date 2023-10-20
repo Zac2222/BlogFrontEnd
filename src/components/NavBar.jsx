@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 const NavBar = () => {
   return (
     <Nav
-    className='d-flex justify-content-center m-5'
+    className='d-flex justify-content-center my-5'
     activeKey="/home"
     onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
   >

@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
-import { Button } from 'react-bootstrap'
-import '../CSS/ColorChange.css'
+import { Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import '../CSS/ColorChange.css';
 
 const ColorChange = () => {
-    const [isDarkMode, setIsDarkMode] = useState(false)
-    const toggleDarkMode = () =>
-    {
-        setIsDarkMode(!isDarkMode)
-    }
-  return (
-    <Button className='colorBtn' variant={isDarkMode ? 'light' : 'dark'} onClick={toggleDarkMode}>
-        {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-    </Button>
-  )
-}
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
-export default ColorChange
+  //useEffect to check and change the body element directly to get the color to work
+  useEffect(() => { 
+    document.body.className = isDarkMode ? 'dark-mode' : 'light-mode';
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  return (
+    <div>
+      <Button className='colorBtn' variant={isDarkMode ? 'light' : 'dark'} onClick={toggleDarkMode}>
+        {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+      </Button>
+    </div>
+  );
+};
+
+export default ColorChange;
+
+
+
+
 
 
