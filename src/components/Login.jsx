@@ -31,24 +31,24 @@ const Login = () => {
   return (
     <div>
       
-      <Form style={{width:'60%',marginLeft:"20%", backgroundColor: "blueviolet",padding: 80, borderRadius: 5,}}>
+      <Form className='accountColor' style={{width:'60%',marginLeft:"20%", padding: 80, borderRadius: 5,}}>
         <h1 className='text-center'>Login</h1>
       <Form.Group className="mb-3" controlId="Username">
         <Form.Label>Username</Form.Label>
-        <Form.Control type="text" placeholder="Enter Username"  onChange={handleUser}/>
+        <Form.Control style={{background: 'skyblue'}} type="text" placeholder="Enter Username"  onChange={({target}) =>setUsername(target.value)}/>
         
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" onChange={handlePassword} />
+        <Form.Control style={{background: 'skyblue'}} type="password" placeholder="Password"  onChange={({target}) =>setPassword(target.value)} />
       </Form.Group>
       
-      <Button variant="outline-primary" onClick={handleSubmit} >
+      <Button variant="outline-dark" onClick={handleSubmit} >
         Submit
       </Button>
       <p className='mt-2'> If you don't have an account</p>
-      <Button variant="outline-primary" onClick={()=> navigate("/CreateAccount")}  >
+      <Button variant="outline-dark" onClick={()=> navigate("/CreateAccount")}  >
         Create Account
       </Button>
     </Form>

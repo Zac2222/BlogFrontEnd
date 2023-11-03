@@ -9,16 +9,16 @@ const NavBar = () => {
     onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
   >
     <Nav.Item>
-      <Nav.Link as={Link} to='/' >Blog Page</Nav.Link>
+      <Nav.Link as={Link} to='/' className='colorText'>Blog Page</Nav.Link>
     </Nav.Item>
     <Nav.Item>
-      <Nav.Link  as={Link} to='/Dashboard' >Dashboard</Nav.Link>
+      <Nav.Link  as={Link} to='/Dashboard'  className='colorText'>Dashboard</Nav.Link>
     </Nav.Item>
     <Nav.Item>
-      <Nav.Link  as={Link} to='/Login' >Login</Nav.Link>
+      <Nav.Link  as={Link} to='/Login'  className='colorText'>Login</Nav.Link>
     </Nav.Item>
     <Nav.Item>
-      <Nav.Link  as={Link} to='/CreateAccount' >Create Account</Nav.Link>
+      <Nav.Link  as={Link} to='/CreateAccount'  className='colorText'>Create Account</Nav.Link>
     </Nav.Item>
     
   </Nav>

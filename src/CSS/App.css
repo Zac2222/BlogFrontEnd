@@ -1,0 +1,22 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Mooli&family=Sometype+Mono&display=swap');
+
+*{
+  font-family: 'Mooli', sans-serif;
+}
+
+.titleText{
+  display: flex;
+  justify-content: center;
+  
+}
+
+.colorText{
+  color: transparent;
+  -webkit-background-clip: text;
+  background-image: linear-gradient(to bottom right, #6964f9, #9b5ef0);
+}
+
+.accountColor{
+  background-image: linear-gradient(to bottom right, #6964f9, #9b5ef0);
+}

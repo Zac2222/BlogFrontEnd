@@ -1,24 +1,40 @@
-.light-mode {
+.lightMode {
   background-color: white;
   color: black;
-
 }
 
-.dark-mode {
+.darkMode {
   background-color: black;
   color: white;
-
 }
 
-.colorBtn {
+.lightBtn {
   border: none;
   cursor: pointer;
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s color 3s ease;
   position: relative;
   background-color: black;
-  color: blue; 
+  color: white;
+  border-radius: 4px;
 }
 
+.darkBtn {
+  border: none;
+  cursor: pointer;
+  transition: box-shadow 0.3s color 3s ease;
+  position: relative;
+  background-color: white;
+  color: black;
+  border-radius: 4px;
+}
 
-
-
+.darkBtn:hover {
+  box-shadow: 0 0 100px white;
+  transform: scale(1.1);
+  transition: transform 0.3s ease; 
+}
+.lightBtn:hover {
+  box-shadow: 0 0 100px black;
+  transform: scale(1.1);
+  transition: transform 0.3s ease; 
+}

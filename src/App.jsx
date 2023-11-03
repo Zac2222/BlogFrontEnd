@@ -1,5 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap";
-import "./App.css";
+import "../src/CSS/App.css";
 import Dashboard from "./components/Dashboard";
 import BlogPage from "./components/BlogPage";
 import CreateAccount from "./components/CreateAccount";
@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import ColorChange from "./components/ColorChange";
 import "../src/CSS/ColorChange.css"
+import Footer from "./components/Footer";
 
 function App() {
 
@@ -19,7 +20,7 @@ function App() {
     <Container>
       <Row>
         <Col>
-          <h1 className="titleText text-center">Our Blog</h1>
+          <h1 className="titleText colorText">Bloop</h1>
         </Col>
        
          
@@ -37,7 +38,7 @@ function App() {
           <Route path="/Dashboard" element={<Dashboard/>}/>
 
         </Routes>
-
+        <Footer/>
 
 
       </Row>

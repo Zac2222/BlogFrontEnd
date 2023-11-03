@@ -7,7 +7,7 @@ const ColorChange = () => {
 
   //useEffect to check and change the body element directly to get the color to work
   useEffect(() => { 
-    document.body.className = isDarkMode ? 'dark-mode' : 'light-mode';
+    document.body.className = isDarkMode ? 'darkMode' : 'lightMode';
   }, [isDarkMode]);
 
   const toggleDarkMode = () => {
@@ -16,7 +16,7 @@ const ColorChange = () => {
 
   return (
     <div>
-      <Button className='colorBtn' variant={isDarkMode ? 'light' : 'dark'} onClick={toggleDarkMode}>
+      <Button  className={`colorBtn ${isDarkMode ? 'darkBtn' : 'lightBtn'}`} variant={isDarkMode ? 'light' : 'dark'} onClick={toggleDarkMode}>
         {isDarkMode ? 'Light Mode' : 'Dark Mode'}
       </Button>
     </div>
