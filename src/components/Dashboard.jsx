@@ -19,6 +19,7 @@ import {
   getBlogItemsByUserId,
   updateBlogItems,
 } from "../Services/DataService";
+import '../CSS/App.css'
 
 const Dashboard = () => {
   let navigate = useNavigate();
@@ -231,13 +232,13 @@ const Dashboard = () => {
           Add Blog Item
         </Button>
 
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header style={{ background: "#2f2f2f" }} closeButton>
-            <Modal.Title style={{ background: "#2f2f2f" }}>
+        <Modal show={show} onHide={handleClose} >
+          <Modal.Header className='accountColor' closeButton>
+            <Modal.Title className='accountColor'>
               {edit ? "Edit" : "Add"} Blog Item
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{ background: "#2f2f2f" }}>
+          <Modal.Body className='accountColor'>
             <Form>
               <Form.Group className="mb-3" controlId="Title">
                 <Form.Label>Title</Form.Label>
@@ -246,6 +247,7 @@ const Dashboard = () => {
                   placeholder="Enter Title"
                   value={blogTitle}
                   onChange={handleSetTitle}
+                  style={{background: 'skyblue'}} 
                 />
               </Form.Group>
 
@@ -256,6 +258,7 @@ const Dashboard = () => {
                   placeholder="Enter Description"
                   value={blogDescription}
                   onChange={handleBlogDescription}
+                  style={{background: 'skyblue'}} 
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="Category">
@@ -263,6 +266,7 @@ const Dashboard = () => {
                   aria-label="Default select example"
                   value={blogCategory}
                   onChange={handleCategory}
+                  style={{background: 'skyblue'}} 
                 >
                   <option>Select Category</option>
                   <option value="Food">Food</option>
@@ -278,6 +282,7 @@ const Dashboard = () => {
                   placeholder="Enter Tags"
                   value={blogTags}
                   onChange={handleTag}
+                  style={{background: 'skyblue'}} 
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="Image">
@@ -288,18 +293,19 @@ const Dashboard = () => {
                   accept="image/png, image/jpg"
                   // value={blogImage}
                   onChange={handleImage}
+                  style={{background: 'skyblue'}} 
                 />
               </Form.Group>
             </Form>
           </Modal.Body>
-          <Modal.Footer style={{ background: "#2f2f2f" }}>
-            <Button variant="outline-secondary" onClick={handleClose}>
+          <Modal.Footer className='accountColor'>
+            <Button variant="outline-dark" onClick={handleClose}>
               Cancel
             </Button>
-            <Button variant="outline-primary" onClick={handleSave}>
+            <Button variant="outline-dark" onClick={handleSave}>
               {edit ? "Save Changes" : "Save"}
             </Button>
-            <Button variant="outline-primary" onClick={handleSave}>
+            <Button variant="outline-dark" onClick={handleSave}>
               {edit ? "Save Changes" : "Save"} and Publish
             </Button>
           </Modal.Footer>
