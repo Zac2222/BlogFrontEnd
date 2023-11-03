@@ -20,7 +20,7 @@ function App() {
     <Container>
       <Row>
         <Col>
-          <h1 className="titleText colorText">Bloop</h1>
+          <h1 className="titleText colorText">Ghost Blog</h1>
         </Col>
        
          
